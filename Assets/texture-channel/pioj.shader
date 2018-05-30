@@ -1,7 +1,7 @@
 ﻿Shader ".Pioj/CombineChannels" {
 	Properties {
 		_MainTex ("Texture", 2D) = "white" {}
-		_Amount("Amount", Range(0.0,1.0)) = 1
+		_Amount("Opacity Detail", Range(0.0,1.0)) = 1
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -17,6 +17,7 @@
 
 			struct Input {
 				fixed4 vertColor;
+				float2 uv_MainTex;
 			};
 
 			void vert(inout appdata_full v, out Input o) {
@@ -25,10 +26,15 @@
 			}
 
 			void surf (Input IN, inout SurfaceOutput o) {
-				o.Albedo = IN.vertColor.rgb;
-				//o.Albedo = IN.vertColor.rgb * _Amount;
 				
-				//FALTA PONER LA TEXTURA!!!
+				fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
+
+				//o.Albedo = IN.vertColor.rgb;
+				//o.Albedo = IN.vertColor.rgb * _Amount;
+
+				o.Albedo = IN.vertColor.rgb * c.rgb;
+				
+				
 
 			}
 			ENDCG
