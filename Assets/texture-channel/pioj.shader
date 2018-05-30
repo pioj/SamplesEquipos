@@ -28,11 +28,12 @@
 			void surf (Input IN, inout SurfaceOutput o) {
 				
 				fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
+				fixed mask = 1 - c.r *_Amount;
+				//c.b = _Amount;
 
-				//o.Albedo = IN.vertColor.rgb;
-				//o.Albedo = IN.vertColor.rgb * _Amount;
+				o.Albedo =  IN.vertColor.rgb * (0.5 + mask);
 
-				o.Albedo = IN.vertColor.rgb * c.rgb;
+				//o.Albedo =  IN.vertColor.rgb * c.rgb;
 				
 				
 
